@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+db.sqlite3
+.tox
+.sass-cache
+.coverage
+/static/
+htmlcov
+/mysite/static/js/lib
+README.html

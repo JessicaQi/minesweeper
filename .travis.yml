@@ -1,0 +1,14 @@
+sudo: no
+dist: trusty
+language: python
+python:
+  - "3.6"
+env:
+  - TOXENV=py36-tests
+  - TOXENV=py36-flake8
+install:
+  - pip install coveralls pyyaml tox
+script:
+  - tox
+after_success:
+  coveralls

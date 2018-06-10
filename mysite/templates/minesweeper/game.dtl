@@ -1,0 +1,74 @@
+{% extends "base.dtl" %}
+{% load static %}
+
+{% block content %}
+  <div class="minesweeper">
+    <div v-if="!connected" class="minesweeper__placeholder">Connecting</div>
+    <div v-if="connected" class="row mb-5">
+      <div class="col">
+        <div class="minesweeper__row">
+          <div class="minesweeper__bordertl"></div>
+          <div v-for="n in map[0].length"
+            class="minesweeper__bordertb">
+          </div>
+          <div class="minesweeper__bordertr"></div>
+        </div>
+        <div v-for="(row, x) in map"
+          class="minesweeper__row">
+          <div class="minesweeper__borderlr"></div>
+          <div v-for="(column, y) in row"
+            :class="'minesweeper__tile' + map[x][y]"
+            :id="'tile-'+ x + '-' + y"
+            @click.prevent.ctrl="handleTileClickMiddle(x, y)"
+            @click.prevent.cmd="handleTileClickMiddle(x, y)"
+            @click.left="handleTileClickLeft(x, y, $event)"
+            @mousedown="handleTileMousedown(x, y, $event)"
+            @contextmenu.prevent="handleTileClickRight(x, y)">
+          </div>
+          <div class="minesweeper__borderlr"></div>
+        </div>
+        <div class="minesweeper__row">
+          <div class="minesweeper__borderbl"></div>
+          <div v-for="n in map[0].length"
+            class="minesweeper__bordertb">
+          </div>
+          <div class="minesweeper__borderbr"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <input v-model="w" type="number" class="form-control" placeholder="width">
+      </div>
+      <div class="col">
+        <input v-model="h" type="number" class="form-control" placeholder="height">
+      </div>
+      <div class="col">
+        <input v-model="minesTotal" type="number" class="form-control" placeholder="mines">
+      </div>
+      <div class="col">
+        <button class="minesweeper__restart-btn btn btn-secondary"
+          @click="handleRestartClick"> Restart
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <p>
+        <strong>Introduction</strong>
+      </p>
+      <p>
+        A multiplayer online minesweeper game built with Django Channel and Vue. You can go to url with <em>hostname/game-id</em> to any game session, the default session-id is 1. You can share the url with friends to play together. <br/>
+      </p>
+      <p>
+        Tips: <br/>
+        left click to reveal tile <br/>
+        right click to mark mine <br/>
+        ctrl/cmd + left click to reveal surrounding tile <br/>
+      </p>
+    </div>
+  </div>
+  <script src="{% static "channels/js/websocketbridge.js" %}"></script>
+  <script src="{% static "js/minesweeper.js" %}"></script>
+{% endblock %}
